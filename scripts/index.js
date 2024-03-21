@@ -16,14 +16,14 @@ function createCard(card, deleteCard) {
   return cardItem;
 }
 
-initialCards.forEach((cardItem) => {
+function renderCard(cardItem, method = "append") {
   const card = createCard(cardItem, deleteCard);
-  placesList.append(card);
-});
+  placesList[method](card);
+}
 
 initialCards.forEach((cardItem) => {
-  createCard(cardItem, deleteCard);
-});
+  renderCard(cardItem, "append")
+})
 
 function deleteCard(cardItem) {
   cardItem.remove();
