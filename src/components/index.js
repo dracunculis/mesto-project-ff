@@ -1,3 +1,4 @@
+import "../pages/index.css"
 const cardTemplate = document.querySelector("#card-template").content;
 const placesList = document.querySelector(".places__list");
 
@@ -22,9 +23,11 @@ function renderCard(cardItem, method = "append") {
 }
 
 initialCards.forEach((cardItem) => {
-  renderCard(cardItem, "append")
-})
+  renderCard(cardItem, "append");
+});
 
 function deleteCard(cardItem) {
   cardItem.remove();
 }
+
+console.log("Hello, World!");
