@@ -1,37 +1,44 @@
-function openPopup(target) {
-  target.classList.add("popup_is-opened");
+function openPopup(popup) {
+  popup.classList.add("popup_is-opened");
   addEscapeClose();
 }
 
-function closePopup(target) {
-  target.classList.remove("popup_is-opened");
+function closePopup(popup) {
+  popup.classList.remove("popup_is-opened");
   removeEscapeClose();
 }
 
-function escapeClose(evt) {
+function handleClosePopupByEsc(evt) {
   if (evt.key === "Escape") {
     closePopup(document.querySelector(".popup_is-opened"));
   }
 }
 
 function addEscapeClose() {
-  document.addEventListener("keydown", escapeClose);
+  document.addEventListener("keydown", handleClosePopupByEsc);
 }
 
 function removeEscapeClose() {
-  document.removeEventListener("keydown", escapeClose);
+  document.removeEventListener("keydown", handleClosePopupByEsc);
 }
 
-function xButtonClose(evt) {
-  if (evt.target.classList.contains("popup__close")) {
-    closePopup(evt.target.closest(".popup"));
-  }
-}
+function setCloseModalByClickListeners(popupList) {
 
-function overlayClose(evt) {
-  if (evt.target.classList.contains("popup_is-opened")) {
-    closePopup(evt.target);
-  }
-}
+  popupList.forEach(popup => {
+    // находим кнопку закрытия попапа
+    const closeButton = popup.querySelector(".popup__close")
 
-export { openPopup, closePopup, xButtonClose, overlayClose };
+    // вешаем обработчик закрытия на кнопку
+    closeButton.addEventListener('click', (evt) => {if (evt.target.classList.contains("popup__close")) {
+      closePopup(evt.target.closest(".popup"));
+    }});
+
+    // вешаем обработчик закрытия на оверлей
+    popup.addEventListener('click', (evt) => {if (evt.target.classList.contains("popup_is-opened")) {
+        closePopup(evt.target);
+      }
+    })
+  })
+} 
+
+export { openPopup, closePopup, setCloseModalByClickListeners };

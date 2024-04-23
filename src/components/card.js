@@ -1,9 +1,8 @@
-import { openPopup, closePopup, escapeClose, addEscapeClose, removeEscapeClose, xButtonClose, overlayClose } from "./modal";
+import { openPopup, closePopup, handleClosePopupByEsc, addEscapeClose, removeEscapeClose} from "./modal";
 
 const cardTemplate = document.querySelector("#card-template").content;
-const placesList = document.querySelector(".places__list");
 
-function createCard(card, deleteCard, cardLike) {
+function createCard(card, deleteCard, likeCard, openCardPopup) {
   const cardItem = cardTemplate.querySelector(".card").cloneNode(true);
   const cardDeleteButton = cardItem.querySelector(".card__delete-button");
   const buttonLike = cardItem.querySelector('.card__like-button');
@@ -17,24 +16,19 @@ function createCard(card, deleteCard, cardLike) {
   });
 
   buttonLike.addEventListener("click", (evt) => {
-    cardLike(evt);
+    likeCard(evt);
   });
 
   cardImage.addEventListener('click', (evt) => {
-    popupCard(evt);
+    openCardPopup(evt);
   })
 
   return cardItem;
 }
 
-function cardLike(evt) {
+function likeCard(evt) {
   evt.target.classList.toggle('card__like-button_is-active');
 };
-
-function renderCard(cardItem, method = "append") {
-  const card = createCard(cardItem, deleteCard, cardLike);
-  placesList[method](card);
-}
 
 function deleteCard(cardItem) {
   cardItem.remove();
@@ -45,7 +39,7 @@ const popupCardImage = document.querySelector('.popup__image');
 const popupCardCaption = document.querySelector('.popup__caption');
 const popupCardWindow = document.querySelector('.popup_type_image');
 
-function popupCard(event) {
+function openCardPopup(event) {
   const target = event.target;
 
   fillCardImagePopup(target);
@@ -53,10 +47,10 @@ function popupCard(event) {
 }
 
 function fillCardImagePopup(target) {
-  popupCardImage['src'] = target['src'];
-  popupCardImage['alt'] = target['alt'];
+  popupCardImage.src = target.src;
+  popupCardImage.alt = target.alt;
   popupCardCaption.textContent = target.closest('.card').querySelector('.card__title').textContent;
 }
 
 
-export { createCard, renderCard, deleteCard, cardLike }
+export { createCard, deleteCard, likeCard, openCardPopup }
