@@ -29,13 +29,13 @@ function setCloseModalByClickListeners(popupList) {
     const closeButton = popup.querySelector(".popup__close")
 
     // вешаем обработчик закрытия на кнопку
-    closeButton.addEventListener('click', (evt) => {if (evt.target.classList.contains("popup__close")) {
-      closePopup(evt.target.closest(".popup"));
-    }});
+    closeButton.addEventListener('click', (evt) => {
+      closePopup(popup);
+    });
 
     // вешаем обработчик закрытия на оверлей
     popup.addEventListener('click', (evt) => {if (evt.target.classList.contains("popup_is-opened")) {
-        closePopup(evt.target);
+        closePopup(popup);
       }
     })
   })

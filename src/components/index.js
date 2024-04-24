@@ -2,12 +2,9 @@ import "../pages/index.css";
 import {
   openPopup,
   closePopup,
-  handleClosePopupByEsc,
-  addEscapeClose,
-  removeEscapeClose,
   setCloseModalByClickListeners
 } from "./modal";
-import { createCard, deleteCard, likeCard, openCardPopup } from "./card";
+import { createCard, deleteCard, likeCard } from "./card";
 import { initialCards } from "./cards.js";
 
 // отображение карточки
@@ -15,7 +12,7 @@ import { initialCards } from "./cards.js";
 const cardsContainer = document.querySelector(".places__list");
 
 function renderCard(cardItem, method = "append") {
-  const card = createCard(cardItem, deleteCard, likeCard, openCardPopup);
+  const card = createCard(cardItem, deleteCard, likeCard, openImagePopup);
   cardsContainer[method](card);
 }
 
@@ -75,10 +72,9 @@ function handleCardFormSubmit(evt) {
     name: inputPlaceName.value,
     link: inputPlaceLink.value,
   };
-  cardsContainer.prepend(createCard(card, deleteCard, likeCard, openCardPopup));
-  inputPlaceName.value = '';
-  inputPlaceLink.value = '';
-  closePopup(popupEditProfile);
+  cardsContainer.prepend(createCard(card, deleteCard, likeCard, openPopup));
+  formNewPlace.reset();
+  closePopup(popupNewCard);
 }
 
 formNewPlace.addEventListener("submit", handleCardFormSubmit);
