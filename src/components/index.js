@@ -72,7 +72,7 @@ function handleCardFormSubmit(evt) {
     name: inputPlaceName.value,
     link: inputPlaceLink.value,
   };
-  cardsContainer.prepend(createCard(card, deleteCard, likeCard, openPopup));
+  cardsContainer.prepend(createCard(card, deleteCard, likeCard, openImagePopup));
   formNewPlace.reset();
   closePopup(popupNewCard);
 }
