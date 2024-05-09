@@ -1,6 +1,6 @@
 const path = "https://nomoreparties.co/v1/wff-cohort-12";
 const headers = {
-  autorization: "e072955e-4ca1-47b4-add8-5a725e806251",
+    authorization: "e072955e-4ca1-47b4-add8-5a725e806251",
   'Content-Type': "application/json",
 };
 
@@ -19,7 +19,11 @@ const apiMethod = (apiRequest) => {
 };
 
 const getUserProfile = () => apiMethod({ url: "users/me", method: "GET" });
-const getInitialCards = () => apiMethod({ url: "cards", method: "GET" });
+function getInitialCards() {
+    return fetch(`${path}/cards`, {
+        headers: headers
+    }).then(r => {return r.json()})
+}
 const updateProfile = (name, description) =>
   apiMethod({
     url: "users/me",

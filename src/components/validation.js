@@ -25,7 +25,7 @@ const hideInputError = (formElement, inputElement, validationConfig) => {
 
 const checkInputValidity = (formElement, inputElement, validationConfig) => {
   if (!inputElement.validity.valid) {
-    showInputError (formElement, inputElement, inputElement.validaionMessage, validationConfig)
+    showInputError(formElement, inputElement, inputElement.validationMessage, validationConfig)
   }
   else {
     hideInputError(formElement, inputElement, validationConfig);
@@ -60,7 +60,7 @@ function enableValidation(validationConfig) {
 
 function clearValidation(formElement, validationConfig) {
   const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
-  const buttonElement = formElement.querySelector(validationConfig.toggleButtonState);
+  const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
   toggleButtonState(inputList, buttonElement, validationConfig);
 }
 

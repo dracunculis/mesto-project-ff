@@ -1,11 +1,15 @@
 import "../pages/index.css";
+const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
 import { openPopup, closePopup, setCloseModalByClickListeners } from "./modal";
 import { createCard, likeCard } from "./card";
-import {
-  enableValidation,
-  clearValidation,
-  validationConfig,
-} from "./validation";
+import { enableValidation, clearValidation } from "./validation";
 import {
   getInitialCards,
   getUserProfile,
@@ -25,43 +29,45 @@ const cardsContainer = document.querySelector(".places__list");
 const cardConfig = {
   likeCard: likeCard,
   openImagePopup: openImagePopup,
-  //"confirmDeletion": confirmDeletion,
+  confirmDeletion: confirmDeletion,
   deleteLike: deleteLike,
   addLike: addLike,
 };
 
 function renderCard(res, ownerId) {
-  res.forEach((card) => {
-    cardsContainer.append(createCard(card, ownerId, cardConfig));
-  });
+  console.log(res);
+  cardsContainer.append(createCard(res, ownerId, cardConfig));
 }
 
 //удаление карточки
-const confirmCardDeletionPopup = document.querySelector('.popup_type_confirm_card_deletion');
-const button = confirmCardDeletionPopup.querySelector('.popup__button');
+const confirmCardDeletionPopup = document.querySelector(
+  ".popup_type_confirm_card_deletion"
+);
+const button = confirmCardDeletionPopup.querySelector(".popup__button");
 
 let cardToDelete;
 
-button.addEventListener('click', (event) => {
-    event.preventDefault();
-    deleteCardListener();
+button.addEventListener("click", (event) => {
+  event.preventDefault();
+  deleteCardListener();
 });
 
 function deleteCardListener() {
-    deleteCard(cardToDelete.cardId)
-        .then(() => {
-            cardToDelete.cardElement.remove();
-            closePopup(confirmCardDeletionPopup)
-        })
-        .catch(error => console.log(error));
+  deleteCard(cardToDelete.cardId)
+    .then(() => {
+      cardToDelete.cardElement.remove();
+      closePopup(confirmCardDeletionPopup);
+    })
+    .catch((error) => console.log(error));
 }
 
 function confirmDeletion(cardElement, cardId) {
-    openPopup(confirmCardDeletionPopup);
-    cardToDelete = {
-        "cardId": cardId,
-       "cardElement": cardElement
-   }}
+  openPopup(confirmCardDeletionPopup);
+  cardToDelete = {
+    cardId: cardId,
+    cardElement: cardElement,
+  };
+}
 
 // редактирование профиля - updated
 const buttonEditProfile = document.querySelector(".profile__edit-button");
@@ -79,6 +85,7 @@ function fillEditProfileForm() {
 }
 
 buttonEditProfile.addEventListener("click", function () {
+  console.log(formEditProfile);
   fillEditProfileForm();
   openPopup(popupEditProfile);
   clearValidation(formEditProfile, validationConfig);
@@ -188,7 +195,7 @@ buttonAddCard.addEventListener("click", function () {
 // closePopup(popupNewCard);
 //}
 
-formNewPlace.addEventListener("submit", submitAddNewCard);//formAddNewCard.addEventListener('submit', (event) => submitAddNewCard(event));
+formNewPlace.addEventListener("submit", submitAddNewCard); //formAddNewCard.addEventListener('submit', (event) => submitAddNewCard(event));
 
 function submitAddNewCard(evt) {
   evt.preventDefault();
@@ -214,12 +221,12 @@ const popupCardWithImage = document.querySelector(".popup_type_image");
 const popupCardImage = document.querySelector(".popup__image");
 const popupCardDescription = document.querySelector(".popup__caption");
 
-function fillImagePopup(target) {
-  popupCardImage.src = target.src;
-  popupCardImage.alt = target.alt;
-  popupCardDescription.textContent = target
-    .closest(".card")
-    .querySelector(".card__title").textContent;
+function fillImagePopup(card) {
+  console.log(card)
+  popupCardImage.src = card.link;
+  popupCardImage.alt = card.name;
+  popupCardDescription.textContent = card.name;
+    
 }
 
 function openImagePopup(evt) {
@@ -231,6 +238,8 @@ function openImagePopup(evt) {
 Promise.all([getUserProfile(), getInitialCards()])
   .then((data) => {
     renderProfile(data[0]);
-    renderCard(data[1], data[0]._id);
+    data[1].forEach(function (item) {
+      renderCard(item, data[0]._id);
+    });
   })
   .catch((error) => console.log(error));

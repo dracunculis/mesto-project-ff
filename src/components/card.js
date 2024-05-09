@@ -1,20 +1,22 @@
+
 const cardTemplate = document.querySelector("#card-template").content;
 
-function createCard(card, ownerId, cardConfig) {
+function createCard(card, ownerId, cardConfig, openImagePopup) {
   const cardItem = cardTemplate.querySelector(".card").cloneNode(true);
-  const buttonLike = cardItem.querySelector(".card__like-button");
+  const likeButton = cardItem.querySelector(".card__like-button");
 
   const cardImage = cardItem.querySelector(".card__image");
   cardImage.src = card.link;
   cardImage.alt = card.name;
-  cardImage.addEventListener("click", () => cardConfig.openImagePopup(card));
+  cardImage.addEventListener("click", () => openImagePopup(card));
 
   cardItem.querySelector(".card__title").textContent = card.name;
   const cardId = card._id;
 
-  buttonLike.addEventListener("click", (evt) => {
+  likeButton.addEventListener("click", (evt) => {
     cardConfig.likeCard(evt, cardId, cardConfig);
   });
+
 
   const likesCounter = cardItem.querySelector(".card__like-counter");
   likesCounter.textContent = card.likes.length === 0 ? "" : card.likes.length;
@@ -43,7 +45,7 @@ function likeCard(evt, cardId, cardConfig) {
   const card = likeButton.closest(".card");
   const likes = card.querySelector(".card__like-counter");
 
-  if (likeButton.classlist.containes("card__like-button_is-active")) {
+  if (likeButton.classList.contains("card__like-button_is-active")) {
     cardConfig
       .deleteLike(cardId)
       .then((data) => {
