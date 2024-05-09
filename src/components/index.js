@@ -35,7 +35,6 @@ const cardConfig = {
 };
 
 function renderCard(res, ownerId, cardConfig, openImagePopup) {
-  console.log(res);
   cardsContainer.append(createCard(res, ownerId, cardConfig, openImagePopup));
 }
 
@@ -85,7 +84,6 @@ function fillEditProfileForm() {
 }
 
 buttonEditProfile.addEventListener("click", function () {
-  console.log(formEditProfile);
   fillEditProfileForm();
   openPopup(popupEditProfile);
   clearValidation(formEditProfile, validationConfig);
@@ -121,17 +119,6 @@ function renderProfile(res) {
 // закрытие попапа
 const popupList = Array.from(document.querySelectorAll(".popup"));
 setCloseModalByClickListeners(popupList);
-
-// редактирование имени и информации о себе
-//function handleProfileFormSubmit(evt) {
-// evt.preventDefault();
-//profileTitle.textContent = inputProfileName.value;
-//profileDescription.textContent = inputProfileDescription.value;
-
-// closePopup(popupEditProfile);
-//}
-
-//formEditProfile.addEventListener("submit", handleProfileFormSubmit);
 
 // Смена аватара - добавлено
 const profileImage = document.querySelector(".profile__image");
@@ -181,20 +168,6 @@ buttonAddCard.addEventListener("click", function () {
   openPopup(popupNewCard);
 });
 
-// редактирование карточки
-//function handleCardFormSubmit(evt) { //delete?
-//evt.preventDefault();
-//const card = {
-//  name: inputPlaceName.value,
-// link: inputPlaceLink.value,
-// };
-// cardsContainer.prepend(
-//   createCard(card, deleteCard, likeCard, openImagePopup)
-// );
-// formNewPlace.reset();
-// closePopup(popupNewCard);
-//}
-
 formNewPlace.addEventListener("submit", submitAddNewCard); //formAddNewCard.addEventListener('submit', (event) => submitAddNewCard(event));
 
 function submitAddNewCard(evt) {
@@ -207,7 +180,9 @@ function submitAddNewCard(evt) {
 
   uploadCard(card)
     .then((data) => {
-      cardsContainer.prepend(createCard(data, data.owner._id, cardConfig, openImagePopup));
+      cardsContainer.prepend(
+        createCard(data, data.owner._id, cardConfig, openImagePopup)
+      );
       closePopup(popupNewCard);
     })
     .catch((error) => console.log(error))
@@ -222,15 +197,16 @@ const popupCardImage = document.querySelector(".popup__image");
 const popupCardDescription = document.querySelector(".popup__caption");
 
 function fillImagePopup(card) {
-  console.log(card)
   popupCardImage.src = card.link;
   popupCardImage.alt = card.name;
   popupCardDescription.textContent = card.name;
-    
 }
 
-function openImagePopup(evt) {
-  fillImagePopup(evt.target);
+function openImagePopup(card) {
+  console.log(card);
+  popupCardImage.src = card.link;
+  popupCardImage.alt = card.name;
+  popupCardDescription.textContent = card.name;
   openPopup(popupCardWithImage);
 }
 

@@ -23,22 +23,22 @@ function removeEscapeClose() {
 }
 
 function setCloseModalByClickListeners(popupList) {
-
-  popupList.forEach(popup => {
+  popupList.forEach((popup) => {
     // находим кнопку закрытия попапа
-    const closeButton = popup.querySelector(".popup__close")
+    const closeButton = popup.querySelector(".popup__close");
 
     // вешаем обработчик закрытия на кнопку
-    closeButton.addEventListener('click', (evt) => {
+    closeButton.addEventListener("click", (evt) => {
       closePopup(popup);
     });
 
     // вешаем обработчик закрытия на оверлей
-    popup.addEventListener('click', (evt) => {if (evt.target.classList.contains("popup_is-opened")) {
+    popup.addEventListener("click", (evt) => {
+      if (evt.target.classList.contains("popup_is-opened")) {
         closePopup(popup);
       }
-    })
-  })
-} 
+    });
+  });
+}
 
 export { openPopup, closePopup, setCloseModalByClickListeners };

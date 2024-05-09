@@ -1,4 +1,3 @@
-
 const cardTemplate = document.querySelector("#card-template").content;
 
 function createCard(card, ownerId, cardConfig, openImagePopup) {
@@ -17,26 +16,20 @@ function createCard(card, ownerId, cardConfig, openImagePopup) {
     cardConfig.likeCard(evt, cardId, cardConfig);
   });
 
-
   const likesCounter = cardItem.querySelector(".card__like-counter");
   likesCounter.textContent = card.likes.length === 0 ? "" : card.likes.length;
-  if (card.likes.some(like => like._id === ownerId)) {
-    likeButton.classList.add('card__like-button_is-active');
-}
+  if (card.likes.some((like) => like._id === ownerId)) {
+    likeButton.classList.add("card__like-button_is-active");
+  }
 
-const cardDeleteButton = cardItem.querySelector(".card__delete-button");
-if (card.owner._id !== ownerId) {
+  const cardDeleteButton = cardItem.querySelector(".card__delete-button");
+  if (card.owner._id !== ownerId) {
     cardDeleteButton.remove();
   } else {
     cardDeleteButton.addEventListener("click", () =>
       cardConfig.confirmDeletion(cardItem, cardId)
     );
   }
-
-  cardImage.addEventListener("click", (evt) => {
-    openImagePopup(evt);
-  });
-
   return cardItem;
 }
 
@@ -63,6 +56,5 @@ function likeCard(evt, cardId, cardConfig) {
       .catch((error) => console.log(error));
   }
 }
-
 
 export { createCard, likeCard };
