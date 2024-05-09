@@ -34,9 +34,9 @@ const cardConfig = {
   addLike: addLike,
 };
 
-function renderCard(res, ownerId) {
+function renderCard(res, ownerId, cardConfig, openImagePopup) {
   console.log(res);
-  cardsContainer.append(createCard(res, ownerId, cardConfig));
+  cardsContainer.append(createCard(res, ownerId, cardConfig, openImagePopup));
 }
 
 //удаление карточки
@@ -207,7 +207,7 @@ function submitAddNewCard(evt) {
 
   uploadCard(card)
     .then((data) => {
-      cardsContainer.prepend(createCard(data, data.owner._id, cardConfig));
+      cardsContainer.prepend(createCard(data, data.owner._id, cardConfig, openImagePopup));
       closePopup(popupNewCard);
     })
     .catch((error) => console.log(error))
@@ -239,7 +239,7 @@ Promise.all([getUserProfile(), getInitialCards()])
   .then((data) => {
     renderProfile(data[0]);
     data[1].forEach(function (item) {
-      renderCard(item, data[0]._id);
+      renderCard(item, data[0]._id, cardConfig, openImagePopup);
     });
   })
   .catch((error) => console.log(error));
