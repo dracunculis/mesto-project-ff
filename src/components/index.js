@@ -1,15 +1,8 @@
 import "../pages/index.css";
-const validationConfig = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visible",
-};
 import { openPopup, closePopup, setCloseModalByClickListeners } from "./modal";
 import { createCard, likeCard } from "./card";
 import { enableValidation, clearValidation } from "./validation";
+import { validationConfig } from "./validationConfig";
 import {
   getInitialCards,
   getUserProfile,
@@ -42,11 +35,11 @@ function renderCard(res, ownerId, cardConfig, openImagePopup) {
 const confirmCardDeletionPopup = document.querySelector(
   ".popup_type_confirm_card_deletion"
 );
-const button = confirmCardDeletionPopup.querySelector(".popup__button");
+const popupButton = confirmCardDeletionPopup.querySelector(".popup__button");
 
 let cardToDelete;
 
-button.addEventListener("click", (event) => {
+popupButton.addEventListener("click", (event) => {
   event.preventDefault();
   deleteCardListener();
 });
